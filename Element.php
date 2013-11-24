@@ -34,7 +34,12 @@ abstract class Handler_Element extends Singleton_Prototype implements Handler_In
 
     private function isAuthorized()
     {
-        $auth = DependencyContainer::get('Auth');
+        try
+        {
+            $auth = DependencyContainer::get('Auth');
+        } catch(HTTPException $e) {
+            return false;
+        }
 
         if (!is_object($auth) || !method_exists($auth, 'isAuthorized')) {
             return false;
